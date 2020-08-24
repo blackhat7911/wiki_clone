@@ -1,5 +1,4 @@
 from frontend.main_screen import *
-from backend.main import *
 from frontend.login import *
 
 class Register(Main):
@@ -8,17 +7,15 @@ class Register(Main):
 
         self.win_title = "Register"
         self.set_title(self.win_title)
-        self.image_name = 'Add Image'
 
         form_title = Label(root, text=self.win_title, font=(self.title_font, self.header_size, self.normal), bg=self.white)
         form_title.place(x=280, y=120)
 
         register_form = Frame(root, bg=self.gray)
 
-        #img = PhotoImage(file=self.user_img)
-        user_img = Button(register_form, text="image", image="", command=self.img_dialog)
+        user_img = Button(register_form, text="add image", command=self.img_dialog)
         user_img.place(x=100, y=20, width=50, height=50)
-        img_lbl = Label(register_form, textvariable=self.image_name, font=(self.plain_font, self.small_size, self.underline))
+        img_lbl = Label(register_form, textvariable=self.img_name, font=(self.plain_font, self.small_size, self.underline))
         img_lbl.place(x=95, y=60)
 
         name_label = Label(register_form, text="Username", font=(self.plain_font, self.plain_size, self.normal))
@@ -28,8 +25,7 @@ class Register(Main):
 
         email_label = Label(register_form, text="Email", font=(self.plain_font, self.plain_size, self.normal))
         email_label.place(x=20, y=140)
-        email_ent = Entry(register_form, textvariable=self.email,
-                         font=(self.plain_font, self.plain_size, self.normal))
+        email_ent = Entry(register_form, textvariable=self.email, font=(self.plain_font, self.plain_size, self.normal))
         email_ent.place(x=20, y=165, width=210, height=30)
 
         pass_label = Label(register_form, text="Password", font=(self.plain_font, self.plain_size, self.normal))
@@ -54,8 +50,28 @@ class Register(Main):
         username = self.username.get()
         email = self.email.get()
         password = self.password.get()
+
+        select_query = "select * from users"
+
+        self.backend.cur.execute(select_query)
+        users = self.backend.cur.fetchall()
+        users_record = []
+
+        for user in users:
+            users_record.append(user[0])
+
         if username == "" or email == "" or password == "":
-            self.empty_msg()
+            messagebox.showerror("Input Error", "All fields are required")
+
+        elif username in users_record:
+            messagebox.showerror("Registration Error", "Username already exists try another username")
+
+        else:
+            insert_query = "insert into users (username,email,image,password) values (%s,%s,%s,%s)"
+            values = (username, email, password)
+            self.backend.cur.execute(insert_query, values)
+            self.backend.conn.commit()
+            messagebox.showinfo("Registration Success", "User registered successfully")
 
     def goback(self):
         self.switch_frame(Login)

@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
-from PIL import ImageTk, Image
 from backend.ImageConverter import *
 from backend.main import *
 
@@ -25,8 +24,7 @@ class Main:
         self.password = StringVar()
         self.email = StringVar()
         self.img_value = StringVar()
-        self.image_name = StringVar()
-        self.filename = "add image"
+        self.img_name = "add image"
 
         # fonts
         self.title_font = "new times roman"
@@ -45,14 +43,6 @@ class Main:
         self.italic = "italic"
         self.underline = "underline"
 
-        # error messages
-        self.empty = "All fields are required"
-        self.login_err = "Your login credintials donot match"
-
-        # images
-        self.user_profile = "/home//bishal/Desktop/sem2-assignments/algoanddb/wiki_clone/static/user_img.png"
-        self.search_icon = "/home/bishal/Desktop/sem2-assignments/algoanddb/wiki_clone/static/search_icon.png"
-
         # geometry
         self.width = 800
         self.height = 600
@@ -62,7 +52,8 @@ class Main:
         self.root.configure(background=self.white)
         self.root.resizable(width=False, height=False)
 
-        #self.image_values = ImageConverter()
+        #self.image_values = ImageConverter(self.filename)
+        self.backend = Backend()
 
     def switch_frame(self, frame):
         win = Tk()
@@ -75,9 +66,3 @@ class Main:
     def img_dialog(self):
         self.filename = filedialog.askopenfilename(initialdir="root/home/", title="Select File", filetypes=(("png files", "*.png"), ("All files", "*.*")))
         self.image_name.set(self.filename)
-
-    def empty_msg(self):
-        messagebox.showerror("Error", "All fields are required")
-
-    def invalid_msg(self):
-        messagebox.showerror("Error", "Sorry, that didn't work")

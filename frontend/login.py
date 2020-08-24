@@ -40,10 +40,25 @@ class Login(Main):
         user = self.username.get()
         passwd = self.password.get()
 
-        if user == "user" and passwd == "123":
-            self.switch_frame(HomePage)
+        if user == "" and passwd == "":
+            messagebox.showerror("Input Error", "All fields are required")
         else:
-            self.invalid_msg()
+            query = "select * from users"
+            self.backend.cur.execute(query)
+
+            user_record = self.backend.cur.fetchall()
+            users = []
+
+            for data in user_record:
+                users.append([data[0], data[3]])
+
+            for i in users:
+                if user == users[i][0] and passwd == users[i][1]:
+                    self.switch_frame(HomePage)
+                    break
+                i += 1
+            else:
+                messagebox.showerror("Error", "Username or password is incorrect")
 
 if __name__ == '__main__':
     master = Tk()

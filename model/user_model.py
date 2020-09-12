@@ -5,27 +5,27 @@ class User:
         self.image = image
         self.password = password
 
-    def get_name(self):
+    def set_name(self, name):
         self.name = name
 
-    def set_name(self):
+    def get_name(self):
         return self.name
 
-    def get_email(self):
+    def set_email(self, email):
         self.email = email
 
-    def set_email(self):
+    def get_email(self):
         return self.email
 
-    def get_image(self):
+    def set_image(self, image):
         self.image = image
 
-    def set_image(self):
+    def get_image(self):
         return self.image
 
-    def get_password(self):
+    def set_password(self, password):
         self.password = password
 
-    def set_password(self):
+    def get_password(self):
         return self.password
 

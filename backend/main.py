@@ -16,6 +16,7 @@ class Backend:
     def add(self, query, values):
         self.cur.execute(query, values)
         self.conn.commit()
+        return True
 
     def update(self, query, values):
         self.cur.execute(query, values)

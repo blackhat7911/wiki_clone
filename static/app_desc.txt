@@ -1,3 +1,1 @@
-Wikipedia is a open source program.
-This app is developed by
-Bishal Rana Magar
+Welcome-Wikipedia is a free online encyclopedia, created and edited by volunteers around the world and hosted by the Wikimedia Foundation.This is search application developed using python tkinter and mysql-Bishal Rana Magar

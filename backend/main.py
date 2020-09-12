@@ -1,5 +1,4 @@
 import mysql.connector
-from mysql.connector import Error
 
 class Backend:
     def __init__(self):
@@ -10,9 +9,7 @@ class Backend:
             database="wiki",
             auth_plugin="mysql_native_password"
         )
-
         self.cur = self.conn.cursor()
-
         if self.conn.is_connected():
             print("Connected")
 

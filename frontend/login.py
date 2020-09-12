@@ -25,13 +25,15 @@ class Login(Main):
                          bg=self.white)
         pass_ent.place(x=20, y=115, width=210, height=30)
 
-        login_btn = Button(login_form, text="Login", font=(self.plain_font, self.plain_size, self.normal), command=self.login_activity, bg=self.green, fg=self.white)
+        login_btn = Button(login_form, text="Login", font=(self.plain_font, self.plain_size, self.normal),
+                           command=self.login_activity, bg=self.green, fg=self.white)
         login_btn.place(x=20, y=160, width=210, height=30)
 
         acc_lbl = Label(login_form, text="Don't have an account.", font=(self.plain_font, self.small_size, self.underline))
         acc_lbl.place(x=70, y=190)
 
-        register_btn = Button(login_form, text="Register", font=(self.plain_font, self.plain_size, self.normal), bg=self.navy, command=lambda: self.switch_frame(Register), fg=self.white)
+        register_btn = Button(login_form, text="Register", font=(self.plain_font, self.plain_size, self.normal),
+                              bg=self.navy, command=lambda: self.switch_frame(Register), fg=self.white)
         register_btn.place(x=20, y=210, width=210, height=30)
 
         login_form.place(x=280, y=210, width=250, height=250)
@@ -40,23 +42,23 @@ class Login(Main):
         user = self.username.get()
         passwd = self.password.get()
 
+        query = "select * from users"
+        self.backend.cur.execute(query)
+
+        user_record = self.backend.cur.fetchall()
+        users = []
+
+        for data in user_record:
+            users.append([data[1], data[3]])
+
         if user == "" and passwd == "":
             messagebox.showerror("Input Error", "All fields are required")
+
         else:
-            query = "select * from users"
-            self.backend.cur.execute(query)
-
-            user_record = self.backend.cur.fetchall()
-            users = []
-
-            for data in user_record:
-                users.append([data[0], data[3]])
-
-            for i in users:
+            for i in range(len(users)):
                 if user == users[i][0] and passwd == users[i][1]:
                     self.switch_frame(HomePage)
                     break
-                i += 1
             else:
                 messagebox.showerror("Error", "Username or password is incorrect")
 
